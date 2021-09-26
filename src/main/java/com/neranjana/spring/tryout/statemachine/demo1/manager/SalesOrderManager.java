@@ -31,8 +31,21 @@ public class SalesOrderManager {
     public SalesOrder pay(long id) {
         Optional<SalesOrder> salesOrderOptional = salesOrderService.findById(id);
         salesOrderOptional.ifPresent(salesOrder -> {
+                    StateMachine<OrderState, OrderEvent> stateMachine = salesOrderStateMachineService.getSalesOrderStateMachine(salesOrder);
+                    stateMachine.sendEvent(OrderEvent.PAY);
+                    salesOrder.setOrderState(stateMachine.getState().getId());
+                    salesOrderService.update(salesOrder);
+                }
+
+        );
+        return salesOrderOptional.get();
+    }
+
+    public SalesOrder fulfill(long id) {
+        Optional<SalesOrder> salesOrderOptional = salesOrderService.findById(id);
+        salesOrderOptional.ifPresent(salesOrder -> {
                 StateMachine<OrderState, OrderEvent> stateMachine = salesOrderStateMachineService.getSalesOrderStateMachine(salesOrder);
-                stateMachine.sendEvent(OrderEvent.PAY);
+                stateMachine.sendEvent(OrderEvent.FULFILL);
                 salesOrder.setOrderState(stateMachine.getState().getId());
                 salesOrderService.update(salesOrder);
             }
@@ -40,4 +53,18 @@ public class SalesOrderManager {
         );
         return salesOrderOptional.get();
     }
+
+    public SalesOrder cancel(long id) {
+        Optional<SalesOrder> salesOrderOptional = salesOrderService.findById(id);
+        salesOrderOptional.ifPresent(salesOrder -> {
+                    StateMachine<OrderState, OrderEvent> stateMachine = salesOrderStateMachineService.getSalesOrderStateMachine(salesOrder);
+                    stateMachine.sendEvent(OrderEvent.CANCEL);
+                    salesOrder.setOrderState(stateMachine.getState().getId());
+                    salesOrderService.update(salesOrder);
+                }
+
+        );
+        return salesOrderOptional.get();
+    }
+
 }

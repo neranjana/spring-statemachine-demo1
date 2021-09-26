@@ -21,9 +21,19 @@ public class SalesOrderController {
         return salesOrderManager.findAllSalesOrders();
     }
 
-    @PatchMapping("/sales-orders/{id}")
+    @PatchMapping("/sales-orders/{id}/pay")
     public SalesOrder pay(@PathVariable long id) {
         return salesOrderManager.pay(id);
+    }
+
+    @PatchMapping("/sales-orders/{id}/fulfill")
+    public SalesOrder fulfill(@PathVariable long id) {
+        return salesOrderManager.fulfill(id);
+    }
+
+    @PatchMapping("/sales-orders/{id}/cancel")
+    public SalesOrder cancel(@PathVariable long id) {
+        return salesOrderManager.cancel(id);
     }
 
 
