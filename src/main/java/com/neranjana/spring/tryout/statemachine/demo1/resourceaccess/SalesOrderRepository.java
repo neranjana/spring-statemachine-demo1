@@ -1,5 +1,6 @@
-package com.neranjana.spring.tryout.statemachine.demo1;
+package com.neranjana.spring.tryout.statemachine.demo1.resourceaccess;
 
+import com.neranjana.spring.tryout.statemachine.demo1.entity.SalesOrder;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,6 +1,7 @@
-package com.neranjana.spring.tryout.statemachine.demo1;
+package com.neranjana.spring.tryout.statemachine.demo1.manager;
 
-import org.hibernate.criterion.Order;
+import com.neranjana.spring.tryout.statemachine.demo1.entity.OrderEvent;
+import com.neranjana.spring.tryout.statemachine.demo1.entity.OrderState;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.statemachine.config.EnableStateMachineFactory;
 import org.springframework.statemachine.config.EnumStateMachineConfigurerAdapter;

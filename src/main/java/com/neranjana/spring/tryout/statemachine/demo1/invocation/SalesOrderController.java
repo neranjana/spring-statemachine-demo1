@@ -1,9 +1,9 @@
-package com.neranjana.spring.tryout.statemachine.demo1;
+package com.neranjana.spring.tryout.statemachine.demo1.invocation;
 
+import com.neranjana.spring.tryout.statemachine.demo1.manager.SalesOrderManager;
+import com.neranjana.spring.tryout.statemachine.demo1.entity.SalesOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 public class SalesOrderController {

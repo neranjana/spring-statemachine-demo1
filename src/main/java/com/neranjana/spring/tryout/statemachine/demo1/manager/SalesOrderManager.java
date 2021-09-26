@@ -1,5 +1,10 @@
-package com.neranjana.spring.tryout.statemachine.demo1;
+package com.neranjana.spring.tryout.statemachine.demo1.manager;
 
+import com.neranjana.spring.tryout.statemachine.demo1.service.SalesOrderService;
+import com.neranjana.spring.tryout.statemachine.demo1.service.SalesOrderStateMachineService;
+import com.neranjana.spring.tryout.statemachine.demo1.entity.OrderEvent;
+import com.neranjana.spring.tryout.statemachine.demo1.entity.OrderState;
+import com.neranjana.spring.tryout.statemachine.demo1.entity.SalesOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.statemachine.StateMachine;
 import org.springframework.stereotype.Service;
