@@ -15,7 +15,7 @@ public class SalesOrderStateMachineService {
     public static final long TEMP_SALES_ORDER_ID = 0;
 
     @Autowired
-    StateMachineFactory<OrderState, OrderEvent> salesOrdertateMachineFactory;
+    StateMachineFactory<OrderState, OrderEvent> salesOrdertateMachineFactory; // The IntelliJ IDE will highlight this could not autowire. But it is fine.
 
     public StateMachine<OrderState, OrderEvent> getSalesOrderStateMachine() {
         return salesOrdertateMachineFactory.getStateMachine(String.valueOf(TEMP_SALES_ORDER_ID));
