@@ -6,6 +6,8 @@ import com.neranjana.spring.tryout.statemachine.demo1.entity.OrderEvent;
 import com.neranjana.spring.tryout.statemachine.demo1.entity.OrderState;
 import com.neranjana.spring.tryout.statemachine.demo1.entity.SalesOrder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.statemachine.StateMachine;
 import org.springframework.stereotype.Service;
 
@@ -28,43 +30,25 @@ public class SalesOrderManager {
         return salesOrderService.findAllSalesOrders();
     }
 
-    public SalesOrder pay(long id) {
+    public SalesOrder handleEvent(long id, OrderEvent event) {
         Optional<SalesOrder> salesOrderOptional = salesOrderService.findById(id);
         salesOrderOptional.ifPresent(salesOrder -> {
                     StateMachine<OrderState, OrderEvent> stateMachine = salesOrderStateMachineService.getSalesOrderStateMachine(salesOrder);
-                    stateMachine.sendEvent(OrderEvent.PAY);
+                    stateMachine.getExtendedState().getVariables().putIfAbsent(SalesOrderStateMachineService.SALES_ORDER_STATE_MACHINE_VARIABLE, salesOrder);
+                    Message<OrderEvent> eventMessage = MessageBuilder.withPayload(event).setHeader("order-id", id).build();
+                    stateMachine.sendEvent(eventMessage);
                     salesOrder.setOrderState(stateMachine.getState().getId());
-                    salesOrderService.update(salesOrder);
                 }
 
         );
         return salesOrderOptional.get();
     }
 
-    public SalesOrder fulfill(long id) {
-        Optional<SalesOrder> salesOrderOptional = salesOrderService.findById(id);
-        salesOrderOptional.ifPresent(salesOrder -> {
-                StateMachine<OrderState, OrderEvent> stateMachine = salesOrderStateMachineService.getSalesOrderStateMachine(salesOrder);
-                stateMachine.sendEvent(OrderEvent.FULFILL);
-                salesOrder.setOrderState(stateMachine.getState().getId());
-                salesOrderService.update(salesOrder);
-            }
 
-        );
-        return salesOrderOptional.get();
-    }
 
-    public SalesOrder cancel(long id) {
-        Optional<SalesOrder> salesOrderOptional = salesOrderService.findById(id);
-        salesOrderOptional.ifPresent(salesOrder -> {
-                    StateMachine<OrderState, OrderEvent> stateMachine = salesOrderStateMachineService.getSalesOrderStateMachine(salesOrder);
-                    stateMachine.sendEvent(OrderEvent.CANCEL);
-                    salesOrder.setOrderState(stateMachine.getState().getId());
-                    salesOrderService.update(salesOrder);
-                }
 
-        );
-        return salesOrderOptional.get();
-    }
+
+
+
 
 }

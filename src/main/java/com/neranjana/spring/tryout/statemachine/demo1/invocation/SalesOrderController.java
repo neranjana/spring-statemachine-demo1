@@ -1,5 +1,6 @@
 package com.neranjana.spring.tryout.statemachine.demo1.invocation;
 
+import com.neranjana.spring.tryout.statemachine.demo1.entity.OrderEvent;
 import com.neranjana.spring.tryout.statemachine.demo1.manager.SalesOrderManager;
 import com.neranjana.spring.tryout.statemachine.demo1.entity.SalesOrder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,19 +22,10 @@ public class SalesOrderController {
         return salesOrderManager.findAllSalesOrders();
     }
 
-    @PatchMapping("/sales-orders/{id}/pay")
-    public SalesOrder pay(@PathVariable long id) {
-        return salesOrderManager.pay(id);
-    }
 
-    @PatchMapping("/sales-orders/{id}/fulfill")
-    public SalesOrder fulfill(@PathVariable long id) {
-        return salesOrderManager.fulfill(id);
-    }
-
-    @PatchMapping("/sales-orders/{id}/cancel")
-    public SalesOrder cancel(@PathVariable long id) {
-        return salesOrderManager.cancel(id);
+    @PatchMapping("/sales-orders/{id}/events/{event}")
+    public SalesOrder cancel(@PathVariable long id, @PathVariable OrderEvent event) {
+        return salesOrderManager.handleEvent(id, event);
     }
 
 
