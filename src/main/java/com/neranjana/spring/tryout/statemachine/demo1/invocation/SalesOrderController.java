@@ -1,8 +1,10 @@
 package com.neranjana.spring.tryout.statemachine.demo1.invocation;
 
 import com.neranjana.spring.tryout.statemachine.demo1.entity.OrderEvent;
+import com.neranjana.spring.tryout.statemachine.demo1.entity.OrderState;
 import com.neranjana.spring.tryout.statemachine.demo1.manager.SalesOrderManager;
 import com.neranjana.spring.tryout.statemachine.demo1.entity.SalesOrder;
+import com.neranjana.spring.tryout.statemachine.demo1.dto.EventOutcomeDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,7 +26,7 @@ public class SalesOrderController {
 
 
     @PatchMapping("/sales-orders/{id}/events/{event}")
-    public SalesOrder cancel(@PathVariable long id, @PathVariable OrderEvent event) {
+    public EventOutcomeDTO<SalesOrder, OrderState, OrderEvent> handleEvent(@PathVariable long id, @PathVariable OrderEvent event) {
         return salesOrderManager.handleEvent(id, event);
     }
 

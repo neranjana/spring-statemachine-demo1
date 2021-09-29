@@ -2,10 +2,7 @@ package com.neranjana.spring.tryout.statemachine.demo1.entity;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Data
@@ -15,5 +12,7 @@ public class SalesOrder {
     private Long id;
     private OrderState orderState;
     private String description;
+    @Version
+    private long version = 0L;
 
 }

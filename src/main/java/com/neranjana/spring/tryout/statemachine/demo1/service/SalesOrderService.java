@@ -9,6 +9,7 @@ import org.springframework.statemachine.StateMachine;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Service
 public class SalesOrderService {
@@ -21,15 +22,18 @@ public class SalesOrderService {
 
     public SalesOrder createSalesOrder(String description) {
         SalesOrder salesOrder = new SalesOrder();
+        Optional<SalesOrder> updatedSalesOrder;
         salesOrder.setDescription(description);
+
 
         StateMachine<OrderState, OrderEvent> stateMachine = salesOrderStateMachineService.getSalesOrderStateMachine();
         stateMachine.start();
         salesOrder.setOrderState(stateMachine.getState().getId());
 
         salesOrder = salesOrderRepository.save(salesOrder);
+        updatedSalesOrder = salesOrderRepository.findById(salesOrder.getId());
         stateMachine.stop();
-        return salesOrder;
+        return updatedSalesOrder.get();
     }
 
     public Iterable<SalesOrder> findAllSalesOrders() {
